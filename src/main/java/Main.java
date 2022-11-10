@@ -1,3 +1,4 @@
+@SuppressWarnings("unused")
 public class Main {
 
     public static void main(String[] args) {
@@ -27,7 +28,7 @@ public class Main {
         manager.add(film9);
         manager.add(film10);
 
-        manager.findLast();
+        ListFilms[] all = manager.findLast();//Отдает в обратном порядке.
 
     }
 
