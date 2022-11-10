@@ -1,13 +1,9 @@
 public class ListFilmsManager {
     private ListFilms[] playbill = new ListFilms[0];
-    private int limit;
+    private final int limit;
 
     public ListFilmsManager() {
         limit = 10;
-    }
-
-    public ListFilmsManager(int limit) {
-        this.limit = limit;
     }
 
 

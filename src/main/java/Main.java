@@ -27,7 +27,7 @@ public class Main {
         manager.add(film9);
         manager.add(film10);
 
-        ListFilms[] all = manager.findLast();//Отдает в обратном порядке.
+        manager.findLast();
 
     }
 
