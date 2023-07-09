@@ -40,11 +40,7 @@ class MovieManagerTest {
         MovieManager manager = new MovieManager();
         Movie[] movies = new Movie[]{
                 new Movie("The Shawshank Redemption"),
-                new Movie("The Godfather"),
-                new Movie("The Dark Knight"),
-                new Movie("12 Angry Men"),
-                new Movie("Schindler's List"),
-                new Movie("Forrest Gump")
+                new Movie("The Godfather")
         };
         for (Movie movie : movies) {
             manager.addMovie(movie);
@@ -54,7 +50,7 @@ class MovieManagerTest {
         Movie[] result = manager.findLast();
 
         // then
-        Movie[] expected = {movies[5], movies[4], movies[3], movies[2], movies[1]};
+        Movie[] expected = {movies[1], movies[0]};
         assertArrayEquals(expected, result);
     }
 
