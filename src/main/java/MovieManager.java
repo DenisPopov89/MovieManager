@@ -1,6 +1,6 @@
 public class MovieManager {
     private Movie[] movies;
-    private final int limit;
+    private int limit;
 
     public MovieManager() {
         this.movies = new Movie[0];
