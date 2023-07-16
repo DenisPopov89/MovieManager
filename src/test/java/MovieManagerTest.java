@@ -1,106 +1,118 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
-class MovieManagerTest {
-    @Test
-    void shouldAddMovie() {
-        // given
-        MovieManager manager = new MovieManager();
-        Movie movie = new Movie("The Shawshank Redemption");
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-        // when
-        manager.addMovie(movie);
+public class MovieManagerTest {
+    private MovieManager manager;
+    private Movie first;
+    private Movie second;
+    private Movie third;
+    private Movie fourth;
+    private Movie fifth;
+    private Movie sixth;
 
-        // then
-        Movie[] expected = {movie};
-        assertArrayEquals(expected, manager.findAll());
+    @BeforeEach
+    public void setUp() {
+        manager = new MovieManager(3);
+        first = new Movie(LocalDate.now());
+        second = new Movie(LocalDate.now());
+        third = new Movie(LocalDate.now());
+        fourth = new Movie(LocalDate.now());
+        fifth = new Movie(LocalDate.now());
+        sixth = new Movie(LocalDate.now());
     }
 
     @Test
-    void shouldFindAllMovies() {
-        // given
-        MovieManager manager = new MovieManager();
-        Movie movie1 = new Movie("The Shawshank Redemption");
-        Movie movie2 = new Movie("The Godfather");
-        manager.addMovie(movie1);
-        manager.addMovie(movie2);
+    public void shouldAddOneMovie() {
+        manager.addMovie(first);
 
-        // when
-        Movie[] result = manager.findAll();
+        List<Movie> expected = Arrays.asList(first);
+        List<Movie> actual = manager.findAll();
 
-        // then
-        Movie[] expected = {movie1, movie2};
-        assertArrayEquals(expected, result);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldFindLastFiveMoviesByDefault() {
-        // given
-        MovieManager manager = new MovieManager();
-        Movie[] movies = new Movie[]{
-                new Movie("The Shawshank Redemption"),
-                new Movie("The Godfather")
-        };
-        for (Movie movie : movies) {
-            manager.addMovie(movie);
-        }
+    public void shouldAddMultipleMovies() {
+        manager.addMovie(first);
+        manager.addMovie(second);
+        manager.addMovie(third);
+        manager.addMovie(fourth);
 
-        // when
-        Movie[] result = manager.findLast();
+        List<Movie> expected = Arrays.asList(first, second, third, fourth);
+        List<Movie> actual = manager.findAll();
 
-        // then
-        Movie[] expected = {movies[1], movies[0]};
-        assertArrayEquals(expected, result);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldFindLastNMovies() {
-        // given
-        int limit = 3;
-        MovieManager manager = new MovieManager(limit);
-        Movie[] movies = new Movie[]{
-                new Movie("The Shawshank Redemption"),
-                new Movie("The Godfather"),
-                new Movie("The Dark Knight"),
-                new Movie("12 Angry Men"),
-                new Movie("Schindler's List"),
-                new Movie("Forrest Gump")
-        };
-        for (Movie movie : movies) {
-            manager.addMovie(movie);
-        }
+    public void shouldGetAllMovies() {
+        manager.addMovie(first);
+        manager.addMovie(second);
+        manager.addMovie(third);
 
-        // when
-        Movie[] result = manager.findLast();
+        List<Movie> expected = Arrays.asList(first, second, third);
+        List<Movie> actual = manager.findAll();
 
-        // then
-        Movie[] expected = {movies[5], movies[4], movies[3]};
-        assertArrayEquals(expected, result);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void shouldFindAllMoviesWhenLimitExceedsSize() {
-        // given
-        int limit = 10;
-        MovieManager manager = new MovieManager(limit);
-        Movie[] movies = new Movie[]{
-                new Movie("The Shawshank Redemption"),
-                new Movie("The Godfather"),
-                new Movie("The Dark Knight"),
-                new Movie("12 Angry Men"),
-                new Movie("Schindler's List"),
-                new Movie("Forrest Gump")
-        };
-        for (Movie movie : movies) {
-            manager.addMovie(movie);
-        }
+    public void shouldGetLastMovies() {
+        manager.addMovie(first);
+        manager.addMovie(second);
+        manager.addMovie(third);
+        manager.addMovie(fourth);
+        manager.addMovie(fifth);
+        manager.addMovie(sixth);
 
-        // when
-        Movie[] result = manager.findLast();
+        List<Movie> expected = Arrays.asList(sixth, fifth, fourth);
+        List<Movie> actual = manager.findLast();
 
-        // then
-        Movie[] expected = {movies[5], movies[4], movies[3], movies[2], movies[1], movies[0]};
-        assertArrayEquals(expected, result);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldGetLastMoviesWithinLimit() {
+        manager.addMovie(first);
+        manager.addMovie(second);
+        manager.addMovie(third);
+        manager.addMovie(fourth);
+
+        List<Movie> expected = Arrays.asList(fourth, third, second);
+        List<Movie> actual = manager.findLast();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldGetLastMoviesWhenLimitIsEqualToNumberOfMovies() {
+        manager.addMovie(first);
+        manager.addMovie(second);
+        manager.addMovie(third);
+
+        List<Movie> expected = Arrays.asList(third, second, first);
+        List<Movie> actual = manager.findLast();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldGetLastMoviesWhenLimitIsZero() {
+        manager = new MovieManager(0);
+
+        manager.addMovie(first);
+        manager.addMovie(second);
+        manager.addMovie(third);
+
+        List<Movie> expected = Arrays.asList();
+        List<Movie> actual = manager.findLast();
+
+        assertEquals(expected, actual);
     }
 }
