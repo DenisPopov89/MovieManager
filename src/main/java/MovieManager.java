@@ -1,29 +1,41 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class MovieManager {
-    private final List<Movie> movies;
-    private final int limit;
+    private Movie[] movies;
+    public final int limit;
+
+    public MovieManager() {
+        this.limit = 5;
+        this.movies = new Movie[0];
+    }
 
     public MovieManager(int limit) {
-        this.movies = new ArrayList<>();
         this.limit = limit;
+        this.movies = new Movie[0];
     }
 
-    public void addMovie(Movie movie) {
-        movies.add(movie);
+    // Добавление нового фильма
+    public void add(Movie movie) {
+        // увеличиваем массив на 1 элемент
+        Movie[] tmp = new Movie[movies.length + 1];
+        // копируем старый массив в новый
+        System.arraycopy(movies, 0, tmp, 0, movies.length);
+        // добавляем новый элемент
+        tmp[tmp.length - 1] = movie;
+        // сохраняем новый массив
+        movies = tmp;
     }
 
-    public List<Movie> findAll() {
+    // Вывод всех фильмов
+    public Movie[] findAll() {
         return movies;
     }
 
-    public List<Movie> findLast() {
-        int size = Math.min(limit, movies.size());
-        Movie[] resultArray = new Movie[size];
-        for (int i = 0; i < size; i++) {
-            resultArray[i] = movies.get(movies.size() - 1 - i);
+    // Вывод последних добавленных фильмов в обратном порядке
+    public Movie[] findLast() {
+        int resultLength = Math.min(movies.length, limit);
+        Movie[] result = new Movie[resultLength];
+        for (int i = 0; i < resultLength; i++) {
+            result[i] = movies[movies.length - i - 1];
         }
-        return List.of(resultArray);
+        return result;
     }
 }
